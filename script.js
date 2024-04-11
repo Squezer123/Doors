@@ -1,19 +1,7 @@
 let area = document.querySelector('.area');
 let postedImage = document.getElementById('postedImage');
 let maState;
-
-let createDiv = () => {
-  let acceptButton = document.querySelectorAll('.__markerjs2__0_toolbar_button')[4];
-  console.log(acceptButton);
-  acceptButton.addEventListener('click', () => {
-    let rect = document.getElementsByTagName('rect')[0];
-    if(rect){
-      console.log(rect);
-    }else
-    window.alert("Nie zaznaczyłeś prostokąta")
-  })
-  
-}
+let body = document.querySelector('body');
 
 postedImage.onchange = () => {
     area.src = URL.createObjectURL(postedImage.files[0]);
@@ -27,8 +15,21 @@ function showMarkerArea(target) {
       "render",
       (event) => {target.src = event.dataUrl
         maState = event.state;
-        console.log(event);
         let rect = document.getElementsByTagName('rect')[0];
+        let offsets = rect.getBoundingClientRect();
+        let x = Math.floor(offsets.x);
+        let y = Math.floor(offsets.y);
+        let width = Math.floor(rect.width.animVal.value);
+        let height = Math.floor(rect.height.animVal.value);
+        console.log(width,height)
+        let door = document.createElement('img');
+        door.src = 'https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvcHUyMzMxNjM2LWltYWdlLTAxLXJtNTAzXzMtbDBqOXFrNnEucG5n.png';
+        door.width = width;
+        door.height = height;
+        door.top = x;
+        door.left = y;
+        area.appendChild(door);
+        console.log(x,y);
       }
       
     );
@@ -39,7 +40,6 @@ function showMarkerArea(target) {
   const sampleImage = area;
   sampleImage.addEventListener("click", () => {
   showMarkerArea(sampleImage);
-  createDiv();
   
 });
 
